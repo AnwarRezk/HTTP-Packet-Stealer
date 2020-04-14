@@ -1,0 +1,7 @@
+> Your code can parse a byte literal containing an IP -> Done
+> Your code has sockets set up and can capture TCP packets ONLY -> Done
+> Your code extracts the IHL field correctly from the IP header -> Done
+> Your code extracts source and destination IPs from the IP header and extracts the payload -> Done
+> Your code extracts TCP source and destination ports -> Done
+> Your code extracts TCP data offset -> Done
+> Your code extracts TCP payload and prints it -> Done
