@@ -70,7 +70,8 @@ def main():
     # iface_name = "lo"
     # stealer.setsockopt(socket.SOL_SOCKET,
     #                    socket.SO_BINDTODEVICE, bytes(iface_name, "ASCII"))
-    s = socket.socket(socket.AF_INET,socket.SOCK_RAW, 6)
+    TCP = 6
+    s = socket.socket(socket.AF_INET,socket.SOCK_RAW, TCP)
     while True:
         data, addr = s.recvfrom(4096)
         IPpacket = parse_network_layer_packet(data)
