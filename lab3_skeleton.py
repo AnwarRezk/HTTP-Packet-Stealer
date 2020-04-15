@@ -79,9 +79,11 @@ def main():
         try:
             http_info = TCPpacket.payload.decode("utf-8")
         except Exception:
-            print("This not a valid HTTP request/response")
+            print("This not an HTTP request/response")
+            print("="*60)
         else:
-            print(f'HTTP request/response : {http_info} from address : {addr}')
+            print(f'HTTP request/response : {http_info} ,from address : {addr}')
+            print("="*60)
     
 if __name__ == "__main__":
     main()
