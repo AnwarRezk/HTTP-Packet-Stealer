@@ -39,9 +39,10 @@ def parse_raw_ip_addr(raw_ip_addr: bytes) -> str:
 def parse_application_layer_packet(ip_packet_payload: bytes) -> TcpPacket:
     # Parses raw bytes of a TCP packet
     # That's a byte literal (~byte array) check resources section
-    src_port = struct.unpack("!H",ip_packet_payload[0:2])[0] #to get the int port number
+    src_port = struct.unpack("!H",ip_packet_payload[0:2])[0] 
     dst_port = struct.unpack("!H",ip_packet_payload[2:4])[0]
-    doffset_reser_contr = ip_packet_payload[12:14]
+    #doffset_reser_contr = ip_packet_payload[12:14]
+    doffset_reser_contr = int(ip_packet_payload[12:14].hex(),16)
     data_offset = (doffset_reser_contr >> 12) * 4 #word = dataoffset(4) + reserved(6) + control(6)
     payload = ip_packet_payload[data_offset:]
 
@@ -55,7 +56,7 @@ def parse_network_layer_packet(ip_packet: bytes) -> IpPacket:
     '''in byte literals , we have 8 bits per index'''
     ver_plus_ihl = ip_packet[0] #1st byte
     ihl = (ver_plus_ihl & 0xF) * 4 #masking and converting into 32 bit words
-    protocol = struct.unpack("!B",ip_packet[9])[0] #(6,) -> 6
+    protocol = ip_packet[9]
     src_addr = parse_raw_ip_addr(ip_packet[12:16])
     dst_addr = parse_raw_ip_addr(ip_packet[16:20])    
     payload = ip_packet[ihl:] #TCP packet
@@ -70,8 +71,7 @@ def main():
     # iface_name = "lo"
     # stealer.setsockopt(socket.SOL_SOCKET,
     #                    socket.SO_BINDTODEVICE, bytes(iface_name, "ASCII"))
-    tcp = 6
-    s = socket.socket(socket.AF_INET,socket.SOCK_RAW, tcp)
+    s = socket.socket(socket.AF_INET,socket.SOCK_RAW, 6)
     while True:
         data, addr = s.recvfrom(4096)
         IPpacket = parse_network_layer_packet(data)
